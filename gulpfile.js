@@ -62,7 +62,7 @@ gulp.task( 'minifycss', function(){
   .pipe($.stylus())
   .pipe($.csso())
   .pipe($.rename(function(path){
-    path.basename += "-v" + version.v;
+    path.basename = "app-v" + version.v;
     path.extname = ".min.css";
   }))
   .pipe(gulp.dest('dist/css'))
