@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js" lang="" manifest="calculadora.appcache">
+    <head> 
+                <script type="text/javascript">
+
+           // Verifica se um novo arquivo de manifesto existe quando a pagina é carregada
+           window.addEventListener('load', function(e) {
+
+              window.applicationCache.addEventListener('updateready', function(e) {
+                if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                  // O browser baixou um novo arquivo de cache
+                  // Substitui o cache antigo e atualiza a página
+                  window.applicationCache.swapCache();
+                        //if (confirm('Uma nova versão está disponivel. Deseja atualizar?')) {
+                            window.location.reload();
+                        //}else{}
+                }
+              }, false);
+
+            }, false);
+
+        </script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Divida minha conta</title>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, user-scalable=no"> 
+
+        <script src="js/modernizr-2.8.3.min.js"></script>
+
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png" />
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- build:replace-css -->
+        <link rel="stylesheet" href="css/app.css">
+        <!-- endbuild -->
+    </head>
+    <body>
+    <div id="overlay" class="overlay"></div>
+        <div id="mainmenu" class="main-menu">
+            <div class="close-menu"><a href="#" id="closemenu" class="close-icon">X</a></div>
+            <ul class="menu">
+                <li><a href="#">Calculadora</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="#">Como utilizar</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>                
+
+        </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 top">
+                <a id="openmenu" class="open-menu">Menu</a>
+                <p>Divida minha conta</p>
+            </div>
+        </div> 
+        <div class="row">
+            <section class="panel panel-default col-md-12">
+                <div class="panel-body">
+                <h3>A conta</h3>
+                <form id="step1">
+                    <div class="form-group">
+                        <label for="totalvalue">Informe o valor total - Incluindo serviço</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">R$</div>
+                            <input id="totalvalue" value="" class="form-control" type="number"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="people">Dividir em quantas pessoas?</label>
+                        <input id="people" value=""type="number" class="form-control"/>
+                    </div>
+                    <input type="submit" class="btn btn-default" id="calc" value="OK" />
+
+                </form>
+                </div>
+            </section>
+        </div>
+
+        <div class="row">
+            <section class="panel panel-default col-md-12">
+                <div class="panel-body">
+                    <form id="step3">
+                        <div class="form-group">
+                            <label for="total"><h3>Total por pessoa</h3></label>
+                            <div class="input-group">
+                                <div class="input-group-addon">R$</div>
+                                <input class="form-control" id="total" value="" disabled/>
+                            </div>
+                        </div>
+                    </form>
+                    <a href="#customsplit" class="show-custom">Faça uma divisão personalizada da conta</a>
+                </div>
+            </section>
+        </div>
+
+        <div class="row">
+            <section class="panel panel-default col-md-12" id="customsplit">
+                <div class="panel-body">
+                    <h3>Divisão personalizada</h3>
+                    <p>Caso alguém vá pagar a mais/menos, você pode alterar a divisão da conta marcando o campo ao lado da pessoa e digitando o valor desejado.</p>
+                    <p>Clique em "Recalcular" para gerar a divisão novamente.</p>
+                    <form id="custom" class="form-horizontal">
+                        <div class="content">
+                            
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="service">Dividir taxa de serviço proporcionalmente ao valor pago?</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-default" id="recalc" value="Recalcular" />    
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col-md-12 share">
+                <h4>Gostou? Então compartilhe! :D</h4>
+                <a href="whatsapp://send?text=Divida a conta do restaurante/bar com seus amigos de forma fácil! Acesse: http://talanski.me/calc/">Enviar por Whatsapp</a>
+            </section>
+        </div>
+        <script src="js/zepto.min.js"></script>
+        <script src="js/plugins.min.js"></script>
+        <!-- build:replace-js -->
+        <script src="js/app.js"></script>
+        <!-- endbuild -->
+    </div>
+    </body>
+</html>

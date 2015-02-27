@@ -1,0 +1,18 @@
+CACHE MANIFEST
+# V1 - Revision: 8
+index.html
+js/modernizr-2.8.3.min.js
+css/normalize.css
+css/bootstrap.min.css
+js/zepto.min.js
+js/plugins.min.js
+
+
+NETWORK:
+*
+
+CACHE:
+#replace-begin
+css/app-v1.min.css
+js/app-v1.min.js
+#replace-end
