@@ -58,28 +58,37 @@ gulp.task( 'minifyjs', function(){
 
 //Task para compilar CSS e minificar CSS
 gulp.task( 'minifycss', function(){
-  return gulp.src(['app/css/**/*.css','!app/css/**/*.min.css'])
+  return gulp.src(['app/css/*.styl'])
+  .pipe($.stylus())
   .pipe($.csso())
   .pipe($.rename(function(path){
     path.basename += "-v" + version.v;
     path.extname = ".min.css";
   }))
-  .pipe(gulp.dest('build/css'))
   .pipe(gulp.dest('dist/css'))
+});
+
+//Compila o Stylus para CSS
+gulp.task( 'compilecss', function(){
+  return gulp.src(['app/css/*.styl'])
+  .pipe($.stylus())
+  .pipe(gulp.dest('app/css'))
 });
 
 //Task para minificar HTML
 gulp.task( 'minifyhtml', function(){
   var css = "css/app-v" + version.v + ".min.css";
   var js = "js/app-v" + version.v + ".min.js";
-
+  var manifest = '<html class="no-js" lang="" manifest="calculadora.appcache">';
+  
   return gulp.src('app/**/*.html')
   .pipe($.htmlReplace({
 
       'replace-css': css,
       'replace-js': js,
+      'replace-manifest': manifest
   }))
-  .pipe($.minifyHtml())
+  //.pipe($.minifyHtml())
   .pipe(gulp.dest('dist'))
 });
 
@@ -133,22 +142,25 @@ gulp.task('manifest',function(){
 });
 
 // Clean Output Directory
-gulp.task('clean', del.bind(null, ['dist']));
+gulp.task('clean', del.bind(null, ['dist','build']));
 
 // Watch Files For Changes & Reload
-gulp.task('serve',function () {
+gulp.task('serve',['compilecss'],function () {
   browserSync({
     notify: false,
     // Run as an https by uncommenting 'https: true'
     // Note: this uses an unsigned certificate which on first access
     //       will present a certificate warning in the browser.
     // https: true,
-    server: ['dist']
+    server: {
+      baseDir: ["app","build"]
+    },
+
   });
 
-  gulp.watch(['app/**/*.html'], ['minifyhtml',reload]);
-  gulp.watch(['app/css/**/*.{styl,css}'], ['minifycss', reload]);
-  gulp.watch(['app/js/**/*.js'], ['minifyjs', reload]);
+  gulp.watch(['app/**/*.html'], reload);
+  gulp.watch(['app/css/**/*.{styl,css}'],['compilecss',reload]);
+  gulp.watch(['app/js/**/*.js'],reload);
   gulp.watch(['app/img/**/*'], reload);
 });
 
