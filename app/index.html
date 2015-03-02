@@ -3,25 +3,7 @@
 <html class="no-js" lang="">
 <!-- endbuild -->
     <head> 
-                <script type="text/javascript">
 
-           // Verifica se um novo arquivo de manifesto existe quando a pagina é carregada
-           window.addEventListener('load', function(e) {
-
-              window.applicationCache.addEventListener('updateready', function(e) {
-                if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                  // O browser baixou um novo arquivo de cache
-                  // Substitui o cache antigo e atualiza a página
-                  window.applicationCache.swapCache();
-                        //if (confirm('Uma nova versão está disponivel. Deseja atualizar?')) {
-                            window.location.reload();
-                        //}else{}
-                }
-              }, false);
-
-            }, false);
-
-        </script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Divida minha conta</title>
@@ -32,17 +14,24 @@
         <script src="js/modernizr-2.8.3.min.js"></script>
 
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <!-- Add to homescreen for Chrome on Android -->
+        <!-- Atalho do Chrome no Android -->
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="icon" sizes="152x152" href="apple-touch-icon-152x152.png" />
 
-        <!-- Add to homescreen for Safari on iOS -->
+        <!-- Atalho para Safari no iOS -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-title" content="Divida a conta">
         <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-152x152.png">
-
-        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png" />
+        
+        <!-- Tile do Win8 -->
         <meta name="msapplication-TileImage" content="apple-touch-icon-144x144.png">
         <meta name="msapplication-TileColor" content="#FFFFFF">
 
@@ -51,6 +40,7 @@
         <!-- build:replace-css -->
         <link rel="stylesheet" href="css/app.css">
         <!-- endbuild -->
+
     </head>
     <body>
     <div id="overlay" class="overlay"></div>
@@ -137,6 +127,12 @@
             <section class="col-md-12 share">
                 <h4>Gostou? Então compartilhe! :D</h4>
                 <a href="whatsapp://send?text=Divida a conta do restaurante/bar com seus amigos de forma fácil! Acesse: http://talanski.me/calc/">Enviar por Whatsapp</a>
+            </section>
+        </div>
+        <div class="row">
+            <section class="col-md-12">
+                <p>Informações para debug</p>
+                <ul id="debug"></ul>
             </section>
         </div>
         <script src="js/zepto.min.js"></script>

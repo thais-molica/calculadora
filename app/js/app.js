@@ -142,18 +142,80 @@
             })
         })
 
-        var Calculadora = {};
 
-        Calculadora.MainMenu ={
-            openMenuLink: "",
-            closeMenuLink: "",
-            overlay: "",
-            mainMenu: "",
+    var calculadora = {};
 
-            set_values: function(){
-                this.openMenuLink = $("#openmenu");
-                this.openMenuLink = $("#openmenu");
+    calculadora = {//Objeto principal do sistema, pai dos demais objetos
+            
+        debugSection: "",
+
+        set_values: function(){
+            this.debugSection = $("#debug");
+        },
+
+        debug: function(elem){
+            this.debugSection.append(elem);
+        },
+
+        init: function(){
+            this.set_values();
+            this.device.set_values();
+        }
+    }
+
+    calculadora.device ={//Objeto para gerenciar informações do dispositivo do usuário
+            
+        screenWidth: "",
+        screenHeight: "",
+        connectionStatus: "",
+
+        set_values: function(){//método para inicializar as propriedades do objeto
+            this.screenWidth = $(document).width();
+            this.screenHeight = $(document).height();
+            this.connectionStatus = navigator.onLine;
+
+            calculadora.debug("<li>screenWidth: " + this.screenWidth + "</li><li>screenHeight: " + this.screenHeight + "</li><li>connectionStatus: " + this.connectionStatus + "</li>");
+        }
+    }
+
+    calculadora.mainmenu ={//Objeto para gerenciar o menu principal da aplicação
+            
+        openMenuLink: "",
+        closeMenuLink: "",
+        overlay: "",
+        mainMenu: "",
+
+        set_values: function(){//método para inicializar as propriedades do objeto
+            this.openMenuLink = $("#openmenu");
+        }
+    }
+
+    calculadora.ads = {
+
+    }
+
+    // Verifica se um novo arquivo de manifesto existe quando a pagina é carregada
+    // Se existir um manifesto mais recente o antigo é substituido e a página é atualizada
+    // Caso contrário inicia a aplicação "calculadora.init()"
+    window.addEventListener('load', function(e) {
+
+        window.applicationCache.addEventListener('updateready', function(e) {
+                
+            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                // O browser baixou um novo arquivo de cache
+                // Substitui o cache antigo e atualiza a página
+                window.applicationCache.swapCache();
+                    //if (confirm('Uma nova versão está disponivel. Deseja atualizar?')) {
+                        window.location.reload();
+                    //}else{
+                    //}
+            }
+            else{
+                calculadora.init();
             }
 
-        }        
+        }, false);
+
+    }, false);
+
 }(window.Zepto, window, document));
