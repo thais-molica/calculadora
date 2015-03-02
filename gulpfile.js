@@ -49,7 +49,7 @@ gulp.task( 'minifyjs', function(){
   return gulp.src(['app/js/**/*.js','!app/js/**/*.min.js'])
   .pipe($.uglify())
   .pipe($.rename(function(path){
-    path.basename += "-v" + version.v;
+    path.basename += "-" + version.v;
     path.extname = ".min.js";
   }))
   .pipe(gulp.dest('build/js'))
@@ -62,7 +62,7 @@ gulp.task( 'minifycss', function(){
   .pipe($.stylus())
   .pipe($.csso())
   .pipe($.rename(function(path){
-    path.basename = "app-v" + version.v;
+    path.basename = "app-" + version.v;
     path.extname = ".min.css";
   }))
   .pipe(gulp.dest('dist/css'))
@@ -77,8 +77,8 @@ gulp.task( 'compilecss', function(){
 
 //Task para minificar HTML
 gulp.task( 'minifyhtml', function(){
-  var css = "css/app-v" + version.v + ".min.css";
-  var js = "js/app-v" + version.v + ".min.js";
+  var css = "css/app-" + version.v + ".min.css";
+  var js = "js/app-" + version.v + ".min.js";
   var manifest = '<html class="no-js" lang="" manifest="calculadora.appcache">';
   
   return gulp.src('app/**/*.html')
@@ -131,8 +131,8 @@ gulp.task('copymin',function(){
 
 //Gera o arquivo de manifest atualizado
 gulp.task('manifest',function(){
-  var css = "css/app-v" + version.v + ".min.css";
-  var js = "js/app-v" + version.v + ".min.js";
+  var css = "css/app-" + version.v + ".min.css";
+  var js = "js/app-" + version.v + ".min.js";
   var text = css + "\n" + js;
   var regex = new RegExp('#replace-begin([^&]+)#replace-end','i');
 
