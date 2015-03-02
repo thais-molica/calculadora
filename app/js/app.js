@@ -124,7 +124,7 @@
                 });
             }
 
-        $("#openmenu").on("click",function(ev){
+        /*$("#openmenu").on("click",function(ev){
             ev.preventDefault();
 
             var mainMenu =  $("#mainmenu");
@@ -140,17 +140,19 @@
                 $("#overlay").css('display','none');
                 $("#mainmenu").css('display','none');
             })
-        })
+        })*/
 
 
     var calculadora = {};
 
     calculadora = {//Objeto principal do sistema, pai dos demais objetos
-            
+        
+        mainContent: "",
         debugSection: "",
 
         set_values: function(){
             this.debugSection = $("#debug");
+            this.mainContent = $("#main-content");
         },
 
         debug: function(elem){
@@ -158,8 +160,10 @@
         },
 
         init: function(){
+            console.log("Inicializando sistema...");
             this.set_values();
             this.device.set_values();
+            this.mainmenu.init();
         }
     }
 
@@ -170,8 +174,8 @@
         connectionStatus: "",
 
         set_values: function(){//método para inicializar as propriedades do objeto
-            this.screenWidth = $(document).width();
-            this.screenHeight = $(document).height();
+            this.screenWidth = $(window).width();
+            this.screenHeight = $(window).height();
             this.connectionStatus = navigator.onLine;
 
             calculadora.debug("<li>screenWidth: " + this.screenWidth + "</li><li>screenHeight: " + this.screenHeight + "</li><li>connectionStatus: " + this.connectionStatus + "</li>");
@@ -184,9 +188,71 @@
         closeMenuLink: "",
         overlay: "",
         mainMenu: "",
+        mainNav: "",
+        currentPage: "",
 
         set_values: function(){//método para inicializar as propriedades do objeto
             this.openMenuLink = $("#openmenu");
+            this.overlay = $("#overlay");
+            this.mainMenu =  $("#mainmenu");
+            this.mainNav = $("#mainnav").children().find('a');
+        },
+
+        navigation: function(){
+            var self = this;
+
+            //Se o usuário não estiver conectado a internet, esconder as abas de atualizações e contato
+
+            if (calculadora.device.connectionStatus === false){
+                var items = self.mainNav.parent().find("[href=\"#contact\"],[href=\"#updates\"]");
+                items.hide();
+            }
+
+            self.openMenuLink.bind("click",function(ev){
+
+                ev.preventDefault();
+
+                self.overlay.css('display','block');
+                self.mainMenu.css('display','block');
+                self.mainMenu.css('left', '-' + self.mainMenu.width() + "px");
+                
+                self.mainMenu.animate({
+                    left: '0'
+                },450, 'ease-in');
+                
+            });
+
+            self.overlay.bind("click",function(){
+                var $menuWidth = '-' + self.mainMenu.width() + "px";
+
+                self.mainMenu.animate({
+                    left: $menuWidth
+                },200, 'ease-out',function(){
+                    
+                    self.overlay.css('display','none');
+                    self.mainMenu.css('display','none');
+
+                });
+                 
+            });
+
+            self.mainNav.bind("click", function( ev ){
+                ev.preventDefault();
+
+                var itemSelected = $(this).attr("href"),                
+                displayItem = calculadora.mainContent.find(itemSelected),
+                currentItem = calculadora.mainContent.find('section.active');
+                
+                currentItem.removeClass("active");
+                displayItem.addClass("active");
+                self.overlay.trigger("click");
+            })
+
+        },
+
+        init: function(){
+            this.set_values();
+            this.navigation();
         }
     }
 
@@ -210,11 +276,9 @@
                     //}else{
                     //}
             }
-            else{
-                calculadora.init();
-            }
-
         }, false);
+
+        calculadora.init();
 
     }, false);
 

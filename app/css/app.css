@@ -1,3 +1,8 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 html {
   color: #222;
   font-size: 1em;
@@ -5,11 +10,11 @@ html {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
-::-moz-selection {
+-moz-selection {
   background: #b3d4fc;
   text-shadow: none;
 }
-::selection {
+selection {
   background: #b3d4fc;
   text-shadow: none;
 }
@@ -37,6 +42,9 @@ fieldset {
 textarea {
   resize: vertical;
 }
+/*
+* Structural classes *
+*/
 .overlay {
   width: 100%;
   background: #000;
@@ -45,6 +53,60 @@ textarea {
   position: fixed;
   z-index: 999;
   display: none;
+  top: 0;
+  left: 0;
+}
+.main-container {
+  margin: 60px auto 10px auto;
+}
+.panel {
+  display: none;
+  padding: 10px 10px;
+}
+.panel header {
+  margin: 0 0;
+  padding: 0 0;
+}
+.panel header > * {
+  margin: 0 0;
+}
+.panel.active {
+  display: block;
+}
+.panel-body {
+  padding: 10px 10px;
+}
+/*
+* Main classes *
+*/
+.top {
+  background: #bbb;
+  display: table;
+  padding: 0;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  -webkit-box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
+  -moz-box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
+  box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
+}
+.top > * {
+  margin: 0 0;
+  height: 40px;
+  display: table-cell;
+  vertical-align: middle;
+  text-transform: uppercase;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.top .open-menu {
+  text-transform: uppercase;
+  text-align: center;
+  width: 10%;
+  background: #888;
+  color: #fff;
+  font-weight: bold;
 }
 .main-menu {
   width: 80%;
@@ -56,10 +118,7 @@ textarea {
   padding: 15px 15px;
   display: none;
   left: -99999px;
-}
-.main-menu.show,
-.overlay.show {
-  display: block;
+  top: 0;
 }
 .main-menu .close-menu {
   display: block;
@@ -93,33 +152,11 @@ textarea {
   padding-left: 2px;
   border-left: 8px solid #03f;
 }
-.top {
-  background: #bbb;
-  display: table;
-  padding: 0;
-}
-.top > * {
-  margin: 0 0;
-  height: 40px;
-  display: table-cell;
-  vertical-align: middle;
-  text-transform: uppercase;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.top .open-menu {
-  text-transform: uppercase;
-  text-align: center;
-  width: 10%;
-  background: #888;
-  color: #fff;
-  font-weight: bold;
-}
 #customsplit,
 .show-custom {
   display: none;
 }
-.panel-body,
-.share {
-  text-align: center;
+.show {
+  display: block;
 }
+/* ************* */
