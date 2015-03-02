@@ -147,7 +147,8 @@ textarea {
   border-bottom: 1px solid #444;
   text-decoration: none;
 }
-.main-menu .menu a:active {
+.main-menu .menu a:active,
+.main-menu .menu a.active {
   background: #444;
   padding-left: 2px;
   border-left: 8px solid #03f;

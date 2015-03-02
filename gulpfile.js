@@ -88,7 +88,7 @@ gulp.task( 'minifyhtml', function(){
       'replace-js': js,
       'replace-manifest': manifest
   }))
-  //.pipe($.minifyHtml())
+  .pipe($.minifyHtml())
   .pipe(gulp.dest('dist'))
 });
 

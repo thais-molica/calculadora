@@ -3,7 +3,6 @@ CACHE MANIFEST
 index.html
 js/modernizr-2.8.3.min.js
 css/normalize.min.css
-css/bootstrap.min.css
 js/zepto.min.js
 js/plugins.min.js
 

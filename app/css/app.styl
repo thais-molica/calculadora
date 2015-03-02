@@ -1,3 +1,10 @@
+/*
+*
+* Usarei uma abordagem Mobile first para a interface pelo fato do alvo da aplicação serem
+* os dispositivos de tela pequena. Adicionei algumas media queries no final da folha de estilo
+* para pequenos ajustes necessário para dispositivos de telas maiores.
+*
+*/
 * 
     -webkit-box-sizing border-box
     -moz-box-sizing border-box
@@ -163,7 +170,7 @@ body
         border-bottom 1px solid #444
         text-decoration none
 
-    .menu a:active
+    .menu a:active, .menu a.active
         background #444
         padding-left 2px
         border-left 8px solid #0033FF
@@ -175,3 +182,34 @@ body
 .show
     display block 
 /* ************* */
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width : 1824px) {
+/* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}

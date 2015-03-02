@@ -244,6 +244,9 @@
                 currentItem = calculadora.mainContent.find('section.active');
                 
                 currentItem.removeClass("active");
+                self.mainNav.removeClass("active");
+
+                self.mainNav.parent().find("[href=\""+itemSelected+"\"]").addClass("active");
                 displayItem.addClass("active");
                 self.overlay.trigger("click");
             })
