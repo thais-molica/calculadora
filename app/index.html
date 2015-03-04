@@ -40,10 +40,32 @@
         <!-- build:replace-css -->
         <link rel="stylesheet" href="css/app.css">
         <!-- endbuild -->
+        <script type="text/javascript">
+
+            // Verifica se um novo arquivo de manifesto existe quando a pagina é carregada
+            // Se existir um manifesto mais recente o antigo é substituido e a página é atualizada
+            // Caso contrário inicia a aplicação "calculadora.init()"
+            window.addEventListener('load', function(e) {
+
+                window.applicationCache.addEventListener('updateready', function(e) {
+                        
+                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                        // O browser baixou um novo arquivo de cache
+                        // Substitui o cache antigo e atualiza a página
+                        window.applicationCache.swapCache();
+                            //if (confirm('Uma nova versão está disponivel. Deseja atualizar?')) {
+                                window.location.reload();
+                            //}else{
+                            //}
+                    }
+                }, false);
+
+            }, false);
+        </script>
 
     </head>
     <body>
-    <div id="overlay" class="overlay"></div>
+        <div id="overlay" class="overlay"></div>
         <section id="mainmenu" class="main-menu">
             <header>
                 <h1>Divida.me</h1>
@@ -51,20 +73,20 @@
             </header>
             <nav id="mainnav">
                 <ul class="menu">
-                    <li><a href="#main" class="active">Calculadora</a></li>
-                    <li><a href="#about">Sobre</a></li>
-                    <li><a href="#manual">Como utilizar</a></li>
-                    <li><a href="#updates">Novidades</a></li>
-                    <li><a href="#contact">Contato</a></li>
+                    <li><a  data-title="Calculadora" href="#main" class="active">Calculadora</a></li>
+                    <li><a data-title="Sobre" href="#about">Sobre</a></li>
+                    <li><a data-title="Como utilizar" href="#manual">Como utilizar</a></li>
+                    <li><a data-title="Novidades" href="#updates">Novidades</a></li>
+                    <li><a data-title="Contato" href="#contact">Contato</a></li>
                 </ul>
             </nav>                
         </section>
-    <div class="top-bar top">
-        <a id="openmenu" class="open-menu">Menu</a>
-        <p>Divida minha conta</p>
-    </div>
     <div class="main-container" id="main-content">
 
+        <header class="top-bar">
+            <nav><button id="openmenu" class="open-menu"><span></span></button></nav>
+            <div class="header-wrapper"><span id="navtitle" class="title">Calculadora</span></div>
+        </header>
         <section class="panel active" id="main">
             <header>
                 <h2>A conta</h2>
@@ -178,6 +200,8 @@
                     </div>
                 </form>
             </div>
+        </section>
+        <section class="panel" id="debug">
         </section>
     </div>
     <script src="js/zepto.min.js"></script>

@@ -29,8 +29,7 @@
                 offset = elem.offset();
                 offsetTop = offset.top;
                 $(window).scrollTop(offsetTop);
-                
-                
+                   
             });
 
             //Ao clicar no botão de Recalcular, executa essa função
@@ -124,23 +123,6 @@
                 });
             }
 
-        /*$("#openmenu").on("click",function(ev){
-            ev.preventDefault();
-
-            var mainMenu =  $("#mainmenu");
-            $("#overlay").css('display','block');
-
-            mainMenu.css('display','block');
-            mainMenu.css('left', '-'+mainMenu.width()+'px' );
-            mainMenu.animate({
-                left: '0px'
-            },450, 'ease-in');
-
-            $("#overlay, #closemenu").bind("click",function(){
-                $("#overlay").css('display','none');
-                $("#mainmenu").css('display','none');
-            })
-        })*/
 
 
     var calculadora = {};
@@ -160,10 +142,20 @@
         },
 
         init: function(){
+            var self = this;
+            
             console.log("Inicializando sistema...");
-            this.set_values();
-            this.device.set_values();
-            this.mainmenu.init();
+            
+            self.set_values();
+            self.device.set_values();
+            self.mainmenu.set_values();
+
+            window.addEventListener("orientationchange", function () {
+                self.set_values();
+                self.device.set_values();
+                self.mainmenu.refresh();
+            })
+
         }
     }
 
@@ -178,7 +170,7 @@
             this.screenHeight = $(window).height();
             this.connectionStatus = navigator.onLine;
 
-            calculadora.debug("<li>screenWidth: " + this.screenWidth + "</li><li>screenHeight: " + this.screenHeight + "</li><li>connectionStatus: " + this.connectionStatus + "</li>");
+            //calculadora.debug("<li>screenWidth: " + this.screenWidth + "</li><li>screenHeight: " + this.screenHeight + "</li><li>connectionStatus: " + this.connectionStatus + "</li>");
         }
     }
 
@@ -190,27 +182,50 @@
         mainMenu: "",
         mainNav: "",
         currentPage: "",
+        navTitle: "",
+        active: "",
 
         set_values: function(){//método para inicializar as propriedades do objeto
             this.openMenuLink = $("#openmenu");
             this.overlay = $("#overlay");
             this.mainMenu =  $("#mainmenu");
             this.mainNav = $("#mainnav").children().find('a');
+            this.navTitle = $("#navtitle");
+            this.overlay.css('height', calculadora.device.screenHeight+"px" );
+            this.mainMenu.css('height', calculadora.device.screenHeight+"px" );
+            this.navigation();
+        },
+
+        refresh: function(){
+            this.overlay.css('height', calculadora.device.screenHeight+"px" );
+            this.mainMenu.css('height', calculadora.device.screenHeight+"px" );
+
+            if(this.active === true){
+                calculadora.mainContent.css('height', calculadora.device.screenHeight+"px" );
+            }
+            else{
+                this.openMenuLink.off("click");
+                this.overlay.off("click");
+                
+            }
+
+            this.navigation();
         },
 
         navigation: function(){
             var self = this;
 
             //Se o usuário não estiver conectado a internet, esconder as abas de atualizações e contato
-
             if (calculadora.device.connectionStatus === false){
                 var items = self.mainNav.parent().find("[href=\"#contact\"],[href=\"#updates\"]");
                 items.hide();
             }
-
-            self.openMenuLink.bind("click",function(ev){
+            
+            self.openMenuLink.on("click",function(ev){
 
                 ev.preventDefault();
+
+                calculadora.mainContent.css('height', calculadora.device.screenHeight+"px" );
 
                 self.overlay.css('display','block');
                 self.mainMenu.css('display','block');
@@ -219,34 +234,38 @@
                 self.mainMenu.animate({
                     left: '0'
                 },450, 'ease-in');
-                
+
+                self.active = true;
             });
 
-            self.overlay.bind("click",function(){
+            self.overlay.on("click",function(){
                 var $menuWidth = '-' + self.mainMenu.width() + "px";
 
                 self.mainMenu.animate({
                     left: $menuWidth
                 },200, 'ease-out',function(){
                     
+                    calculadora.mainContent.css('height', 'auto' );
                     self.overlay.css('display','none');
                     self.mainMenu.css('display','none');
 
+                    self.active = false;
                 });
-                 
             });
 
-            self.mainNav.bind("click", function( ev ){
+            self.mainNav.on("click", function( ev ){
                 ev.preventDefault();
 
-                var itemSelected = $(this).attr("href"),                
+                var itemSelected = $(this).attr("href"),
+                itemSelectedElem = self.mainNav.parent().find("[href=\""+itemSelected+"\"]");
                 displayItem = calculadora.mainContent.find(itemSelected),
                 currentItem = calculadora.mainContent.find('section.active');
                 
                 currentItem.removeClass("active");
                 self.mainNav.removeClass("active");
 
-                self.mainNav.parent().find("[href=\""+itemSelected+"\"]").addClass("active");
+                itemSelectedElem.addClass("active");
+                self.navTitle.text(itemSelectedElem.data('title'));
                 displayItem.addClass("active");
                 self.overlay.trigger("click");
             })
@@ -254,8 +273,7 @@
         },
 
         init: function(){
-            this.set_values();
-            this.navigation();
+
         }
     }
 
@@ -263,26 +281,7 @@
 
     }
 
-    // Verifica se um novo arquivo de manifesto existe quando a pagina é carregada
-    // Se existir um manifesto mais recente o antigo é substituido e a página é atualizada
-    // Caso contrário inicia a aplicação "calculadora.init()"
     window.addEventListener('load', function(e) {
-
-        window.applicationCache.addEventListener('updateready', function(e) {
-                
-            if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-                // O browser baixou um novo arquivo de cache
-                // Substitui o cache antigo e atualiza a página
-                window.applicationCache.swapCache();
-                    //if (confirm('Uma nova versão está disponivel. Deseja atualizar?')) {
-                        window.location.reload();
-                    //}else{
-                    //}
-            }
-        }, false);
-
         calculadora.init();
-
-    }, false);
-
+    })
 }(window.Zepto, window, document));

@@ -16,6 +16,7 @@ html {
   line-height: 1.4;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  min-height: 100%;
 }
 -moz-selection {
   background: #b3d4fc;
@@ -49,22 +50,27 @@ fieldset {
 textarea {
   resize: vertical;
 }
+body {
+/*margin 10px 10px*/
+  position: relative;
+  min-height: 100%;
+}
 /*
 * Structural classes *
 */
 .overlay {
   width: 100%;
-  background: #000;
-  height: 100%;
-  opacity: 0.5;
+  background-color: rgba(0,0,0,0.5);
   position: fixed;
-  z-index: 999;
+  z-index: 10;
   display: none;
   top: 0;
   left: 0;
 }
 .main-container {
-  margin: 60px auto 10px auto;
+  margin: 0px auto;
+  position: relative;
+  overflow: hidden;
 }
 .panel {
   display: none;
@@ -73,12 +79,14 @@ textarea {
 .panel header {
   margin: 0 0;
   padding: 0 0;
+  display: none;
 }
 .panel header > * {
   margin: 0 0;
 }
 .panel.active {
   display: block;
+  padding-top: 60px;
 }
 .panel-body {
   padding: 10px 10px;
@@ -117,34 +125,58 @@ textarea.form-control {
 /*
 * Main classes *
 */
-.top {
+.top-bar {
   background: #bbb;
   display: table;
   padding: 0;
-  height: 40px;
+  height: 56px;
   width: 100%;
   position: fixed;
   top: 0;
-  -webkit-box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
-  -moz-box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
-  box-shadow: 0px 4px 12px -2px rgba(50,50,50,0.75);
+  left: 0;
+  -webkit-box-shadow: 0px 1px 13px rgba(50,50,50,0.75);
+  -moz-box-shadow: 0px 1px 13px rgba(50,50,50,0.75);
+  box-shadow: 0px 1px 13px rgba(50,50,50,0.75);
+  z-index: 5;
 }
-.top > * {
-  margin: 0 0;
-  height: 40px;
+.top-bar > * {
+  margin: 0;
   display: table-cell;
   vertical-align: middle;
   text-transform: uppercase;
-  padding-left: 10px;
-  padding-right: 10px;
 }
-.top .open-menu {
-  text-transform: uppercase;
-  text-align: center;
-  width: 10%;
+.top-bar > nav {
+  width: 55px;
+}
+.top-bar .title {
+  font-weight: bold;
+  padding: 10px 10px;
+}
+.top-bar .open-menu {
+  width: 55px;
   background: #888;
   color: #fff;
-  font-weight: bold;
+  padding: 7px;
+  border: 0;
+  height: 56px;
+}
+.top-bar .open-menu span,
+.top-bar .open-menu span:before,
+.top-bar .open-menu span:after {
+  cursor: pointer;
+  border-radius: 1px;
+  height: 5px;
+  width: 35px;
+  background: #fff;
+  position: absolute;
+  display: block;
+  content: '';
+}
+.top-bar .open-menu span:before {
+  top: -10px;
+}
+.top-bar .open-menu span:after {
+  bottom: -10px;
 }
 .main-menu {
   width: 80%;
@@ -157,6 +189,8 @@ textarea.form-control {
   display: none;
   left: -99999px;
   top: 0;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 .main-menu .close-menu {
   display: block;
@@ -195,17 +229,14 @@ textarea.form-control {
 .show-custom {
   display: none;
 }
+#debug {
+  display: none;
+}
 .show {
   display: block;
 }
 /* ************* */
 /* iPads (portrait and landscape) ----------- */
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .main-menu {
-    width: 30%;
-  }
-}
-/* iPads  ----------- */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   .main-menu {
     width: 30%;
