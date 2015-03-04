@@ -144,15 +144,22 @@
         init: function(){
             var self = this;
             
-            console.log("Inicializando sistema...");
-            
+            //Inicializa os demais objetos do sistema
             self.set_values();
             self.device.set_values();
             self.mainmenu.set_values();
 
+            //Ao rotacionar a tela dispara um evento de reload
             window.addEventListener("orientationchange", function () {
+                
+                //É necessário utilizar o timeout antes de recalcular
+                //os valores dos elementos utilizados pelo menu para
+                //solucionar um bug que atrapalhava na renderização
+                //do menu corretamente
                 setTimeout(function(){
+
                     calculadora.mainmenu.reload();
+
                 },500);
             })
 
@@ -186,14 +193,19 @@
             this.navTitle = $("#navtitle");
             this.navigation();
         },
-        reload: function(){
+
+        reload: function(){ //Esse método é chamado assim que o usuário rotaciona a tela do dispositivo
             var self = this;
 
+            //Se o menu estiver ativo quando a tela for rotacionada
+            //é preciso setar novamente os valores de altura e largura dos elementos do menu
+            //e da tela para evitar o mal funcionamento do menu
             if (self.active === true){
                 
-                var windowHeight = $(window).height();
-                var windowWidth = $(window).width();
+                var windowHeight = $(window).height(),
+                    windowWidth = $(window).width();
 
+                //Seta a largura do menu baseado na largura da tela
                 if ( windowWidth <= 450 ){
                     
                     mainMenuWidth = "80%";
@@ -207,18 +219,20 @@
                     mainMenuWidth = "30%";
                 }
                 
+                //Fixa uma altura para o conteúdo principal para
+                //evitar a rolagem da pagina quando o menu estiver em exibição
                 calculadora.mainContent.css('height', windowHeight+"px" );
 
+                //Exibe o overlay
                 self.overlay.css('display','block');
                 self.overlay.css('height', windowHeight+"px" );
                 
+                //Exibe o menu
                 self.mainMenu.css('display','block');
-
-
                 self.mainMenu.css('height', windowHeight+"px" );
                 self.mainMenu.css('width', mainMenuWidth );
                 self.mainMenu.css('left', '0');
-                
+
             }
         },
         navigation: function(){
@@ -230,13 +244,15 @@
                 items.hide();
             }
             
+            //Faz a exibição do menu de navegação
             self.openMenuLink.on("click",function(ev){
 
                 ev.preventDefault();
                 
-                var windowHeight = $(window).height();
-                var windowWidth = $(window).width();
+                var windowHeight = $(window).height(),
+                    windowWidth = $(window).width();
 
+                //Seta a largura do menu baseado na largura da tela
                 if ( windowWidth <= 450 ){
                     
                     mainMenuWidth = "80%";
@@ -250,14 +266,16 @@
                     mainMenuWidth = "30%";
                 }
                 
+                //Fixa uma altura para o conteúdo principal para
+                //evitar a rolagem da pagina quando o menu estiver em exibição
                 calculadora.mainContent.css('height', windowHeight+"px" );
 
+                //Exibe o overlay
                 self.overlay.css('display','block');
                 self.overlay.css('height', windowHeight+"px" );
                 
+                //Exibe o menu principal incluindo a animação de exibição
                 self.mainMenu.css('display','block');
-
-
                 self.mainMenu.css('height', windowHeight+"px" );
                 self.mainMenu.css('width', mainMenuWidth );
                 self.mainMenu.css('left', '-' + self.mainMenu.width() + "px");
@@ -266,9 +284,11 @@
                     left: '0'
                 },450, 'ease-in');
 
+                //Seta o estado do menu para ativo
                 self.active = true;
             });
-
+            
+            //Fecha o menu ao clicar sobre o overlay
             self.overlay.on("click",function(){
                 var $menuWidth = '-' + self.mainMenu.width() + "px";
 
@@ -284,17 +304,20 @@
                 });
             });
 
+            //Gerencia a navegação pelos links do menu
             self.mainNav.on("click", function( ev ){
                 ev.preventDefault();
 
-                var itemSelected = $(this).attr("href"),
-                itemSelectedElem = self.mainNav.parent().find("[href=\""+itemSelected+"\"]"),
-                displayItem = calculadora.mainContent.find(itemSelected),
-                currentItem = calculadora.mainContent.find('section.active');
+                var itemSelected = $(this).attr("href"), //Usa o href do link clicado como referência para a section que será exibida
+                itemSelectedElem = self.mainNav.parent().find("[href=\""+itemSelected+"\"]"), //Elemento do link selecionado
+                displayItem = calculadora.mainContent.find(itemSelected), //Localiza no DOM qual section deve ser exibida
+                currentItem = calculadora.mainContent.find('section.active'); //Localiza no dol qual a section que está sendo exibida atualmente
                 
+                //Remove a classe "active" dos elementos que estavam ativos
                 currentItem.removeClass("active");
                 self.mainNav.removeClass("active");
 
+                //Adiciona a classe "active" no item selecionado pelo usuário
                 itemSelectedElem.addClass("active");
                 self.navTitle.text(itemSelectedElem.data('title'));
                 displayItem.addClass("active");
@@ -305,6 +328,7 @@
     }
 
     window.addEventListener('load', function(e) {
+        //Inicia a calculadora
         calculadora.init();
     })
 }(window.Zepto, window, document));
