@@ -151,26 +151,19 @@
             self.mainmenu.set_values();
 
             window.addEventListener("orientationchange", function () {
-                self.set_values();
-                self.device.set_values();
-                self.mainmenu.refresh();
+                setTimeout(function(){
+                    calculadora.mainmenu.reload();
+                },500);
             })
 
         }
     }
 
     calculadora.device ={//Objeto para gerenciar informações do dispositivo do usuário
-            
-        screenWidth: "",
-        screenHeight: "",
         connectionStatus: "",
 
         set_values: function(){//método para inicializar as propriedades do objeto
-            this.screenWidth = $(window).width();
-            this.screenHeight = $(window).height();
             this.connectionStatus = navigator.onLine;
-
-            //calculadora.debug("<li>screenWidth: " + this.screenWidth + "</li><li>screenHeight: " + this.screenHeight + "</li><li>connectionStatus: " + this.connectionStatus + "</li>");
         }
     }
 
@@ -191,27 +184,43 @@
             this.mainMenu =  $("#mainmenu");
             this.mainNav = $("#mainnav").children().find('a');
             this.navTitle = $("#navtitle");
-            this.overlay.css('height', calculadora.device.screenHeight+"px" );
-            this.mainMenu.css('height', calculadora.device.screenHeight+"px" );
             this.navigation();
         },
+        reload: function(){
+            var self = this;
 
-        refresh: function(){
-            this.overlay.css('height', calculadora.device.screenHeight+"px" );
-            this.mainMenu.css('height', calculadora.device.screenHeight+"px" );
+            if (self.active === true){
+                
+                var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
 
-            if(this.active === true){
-                calculadora.mainContent.css('height', calculadora.device.screenHeight+"px" );
-            }
-            else{
-                this.openMenuLink.off("click");
-                this.overlay.off("click");
+                if ( windowWidth <= 450 ){
+                    
+                    mainMenuWidth = "80%";
+
+                }else if ( windowWidth >= 451 ){
+                    
+                    mainMenuWidth = "60%";
+
+                }else{
+                   
+                    mainMenuWidth = "30%";
+                }
+                
+                calculadora.mainContent.css('height', windowHeight+"px" );
+
+                self.overlay.css('display','block');
+                self.overlay.css('height', windowHeight+"px" );
+                
+                self.mainMenu.css('display','block');
+
+
+                self.mainMenu.css('height', windowHeight+"px" );
+                self.mainMenu.css('width', mainMenuWidth );
+                self.mainMenu.css('left', '0');
                 
             }
-
-            this.navigation();
         },
-
         navigation: function(){
             var self = this;
 
@@ -224,11 +233,33 @@
             self.openMenuLink.on("click",function(ev){
 
                 ev.preventDefault();
+                
+                var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
 
-                calculadora.mainContent.css('height', calculadora.device.screenHeight+"px" );
+                if ( windowWidth <= 450 ){
+                    
+                    mainMenuWidth = "80%";
+
+                }else if ( windowWidth >= 451 ){
+                    
+                    mainMenuWidth = "60%";
+
+                }else{
+                   
+                    mainMenuWidth = "30%";
+                }
+                
+                calculadora.mainContent.css('height', windowHeight+"px" );
 
                 self.overlay.css('display','block');
+                self.overlay.css('height', windowHeight+"px" );
+                
                 self.mainMenu.css('display','block');
+
+
+                self.mainMenu.css('height', windowHeight+"px" );
+                self.mainMenu.css('width', mainMenuWidth );
                 self.mainMenu.css('left', '-' + self.mainMenu.width() + "px");
                 
                 self.mainMenu.animate({
@@ -257,7 +288,7 @@
                 ev.preventDefault();
 
                 var itemSelected = $(this).attr("href"),
-                itemSelectedElem = self.mainNav.parent().find("[href=\""+itemSelected+"\"]");
+                itemSelectedElem = self.mainNav.parent().find("[href=\""+itemSelected+"\"]"),
                 displayItem = calculadora.mainContent.find(itemSelected),
                 currentItem = calculadora.mainContent.find('section.active');
                 
@@ -271,14 +302,6 @@
             })
 
         },
-
-        init: function(){
-
-        }
-    }
-
-    calculadora.ads = {
-
     }
 
     window.addEventListener('load', function(e) {

@@ -43,6 +43,21 @@ var AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
+//Task de deploy
+gulp.task( 'deploy',['default'],function(){
+  return gulp.src([
+    'dist/**'
+  ])
+  .pipe( $.ftp({
+    host: "grouse.arvixe.com",
+    port: 21, // defaults to 21 
+    user: "talanski", // defaults to "anonymous" 
+    pass: "xsw23edc", // defaults to "@anonymous" 
+    remotePath: "public_html/calc/"
+  }))
+  .pipe($.util.noop());
+});
+
 //Task para minificar JS
 gulp.task( 'minifyjs', function(){
   return gulp.src(['app/js/**/*.js','!app/js/**/*.min.js'])
