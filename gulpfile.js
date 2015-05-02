@@ -49,11 +49,11 @@ gulp.task( 'deploy',['default'],function(){
     'dist/**'
   ])
   .pipe( $.ftp({
-    host: "grouse.arvixe.com",
+    host: "",
     port: 21, // defaults to 21 
-    user: "talanski", // defaults to "anonymous" 
-    pass: "xsw23edc", // defaults to "@anonymous" 
-    remotePath: "public_html/calc/"
+    user: "", // defaults to "anonymous" 
+    pass: "", // defaults to "@anonymous" 
+    remotePath: ""
   }))
   .pipe($.util.noop());
 });
